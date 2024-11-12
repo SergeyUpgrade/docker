@@ -18,6 +18,7 @@ class Courses(models.Model):
         help_text="Картинка курса",
     )
 
+
     class Meta:
         verbose_name = 'Курс'
         verbose_name_plural = 'Курсы'
@@ -47,7 +48,7 @@ class Lessons(models.Model):
 
     video_url = models.TextField(verbose_name='Cсылка на видео', help_text="Прикрепите ссылку на видео для урока.")
 
-    courses = models.ForeignKey('Courses', on_delete=models.CASCADE, verbose_name='Курс')
+    courses = models.ForeignKey(Courses, on_delete=models.CASCADE, verbose_name='Курс')
 
 
     class Meta:
