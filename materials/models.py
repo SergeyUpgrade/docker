@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Courses(models.Model):
     name = models.CharField(
         max_length=35,
@@ -48,7 +49,7 @@ class Lessons(models.Model):
 
     video_url = models.TextField(verbose_name='Cсылка на видео', help_text="Прикрепите ссылку на видео для урока.")
 
-    courses = models.ForeignKey(Courses, on_delete=models.CASCADE, verbose_name='Курс')
+    courses = models.ForeignKey(Courses, on_delete=models.CASCADE, related_name='lessons', blank=True, null=True)
 
 
     class Meta:
