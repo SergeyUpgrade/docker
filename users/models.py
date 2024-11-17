@@ -39,11 +39,12 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     class Meta:
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"
 
     def __str__(self):
         return self.email
+
 
 class Payment(models.Model):
     PAYMENT_METHOD_CHOICES = [
@@ -60,9 +61,7 @@ class Payment(models.Model):
         Courses, on_delete=models.CASCADE, verbose_name="Оплаченный курс"
     )
     separately_paid_lesson = models.ForeignKey(
-        Lessons,
-        on_delete=models.CASCADE,
-        verbose_name="Отдельно оплаченный урок"
+        Lessons, on_delete=models.CASCADE, verbose_name="Отдельно оплаченный урок"
     )
     payment_amount = models.DecimalField(
         max_digits=10,
