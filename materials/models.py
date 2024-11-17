@@ -9,7 +9,7 @@ class Courses(models.Model):
     )
 
     description = models.TextField(blank=True, null=True, verbose_name="Описание",
-        help_text="Укажите описание курса")
+                                   help_text="Укажите описание курса")
 
     preview = models.ImageField(
         upload_to="materials/previews_classes",
@@ -19,11 +19,9 @@ class Courses(models.Model):
         help_text="Картинка курса",
     )
 
-
     class Meta:
         verbose_name = 'Курс'
         verbose_name_plural = 'Курсы'
-
 
     def __str__(self):
         return self.name
@@ -37,7 +35,7 @@ class Lessons(models.Model):
     )
 
     description = models.TextField(blank=True, null=True, verbose_name="Описание",
-        help_text="Укажите описание урока")
+                                   help_text="Укажите описание урока")
 
     preview = models.ImageField(
         upload_to="materials/previews_lessons",
@@ -51,12 +49,9 @@ class Lessons(models.Model):
 
     courses = models.ForeignKey(Courses, on_delete=models.CASCADE, related_name='lessons', blank=True, null=True)
 
-
     class Meta:
         verbose_name = 'Курс'
         verbose_name_plural = 'Курсы'
 
-
     def __str__(self):
         return self.name
-
