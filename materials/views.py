@@ -3,6 +3,7 @@ from rest_framework.generics import (CreateAPIView, DestroyAPIView,
                                      UpdateAPIView, get_object_or_404)
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from materials.models import Courses, Lessons, Subscription
@@ -69,18 +70,16 @@ class LessonsDestroyAPIView(DestroyAPIView):
     serializer_class = LessonsSerializer
     permission_classes = (IsAuthenticated, IsOwner | ~IsOwner)
 
-class SubscriptionCreateAPIView(CreateAPIView):
+class SubscriptionAPIView(APIView):
 
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializer
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, course_id, *args, **kwargs):
 
-        user = self.request.user
+        user = request.user
 
-        course_id = self.request.data.get('course')
-
-        course_item = get_object_or_404(Courses, pk=course_id)
+        course_item = get_object_or_404(Courses, id=course_id)
 
         subs_item = Subscription.objects.filter(course=course_item, user=user)
 
