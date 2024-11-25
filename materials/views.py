@@ -36,6 +36,7 @@ class CoursesViewSet(ModelViewSet):
             self.permission_classes = (~IsModer | IsOwner,)
         return super().get_permissions()
 
+
 class LessonsCreateApiView(CreateAPIView):
     queryset = Lessons.objects.all()
     serializer_class = LessonsSerializer
@@ -70,8 +71,8 @@ class LessonsDestroyAPIView(DestroyAPIView):
     serializer_class = LessonsSerializer
     permission_classes = (IsAuthenticated, IsOwner | ~IsOwner)
 
-class SubscriptionAPIView(APIView):
 
+class SubscriptionAPIView(APIView):
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializer
 
@@ -82,7 +83,6 @@ class SubscriptionAPIView(APIView):
         course_item = get_object_or_404(Courses, id=course_id)
 
         subs_item = Subscription.objects.filter(course=course_item, user=user)
-
 
         if subs_item.exists():
             subs_item.delete()

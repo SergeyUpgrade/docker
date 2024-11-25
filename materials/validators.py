@@ -1,5 +1,6 @@
 from rest_framework.serializers import ValidationError
 
+
 def validate_permitted_words(value):
     if not value:
         return None
