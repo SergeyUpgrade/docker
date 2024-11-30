@@ -12,7 +12,8 @@ from materials.serializers import (CoursesDetailSerializer, CoursesSerializer,
                                    LessonsSerializer, SubscriptionSerializer)
 from users.permissions import IsModer, IsOwner
 
-from tasks import send_email_update_course
+from materials.tasks import send_info
+
 
 class CoursesViewSet(ModelViewSet):
     queryset = Courses.objects.all()
@@ -30,9 +31,13 @@ class CoursesViewSet(ModelViewSet):
 
     def perform_update(self, serializer):
         course = serializer.save()
-        send_email_update_course.delay(course.pk)
-        return course
 
+        emails = []
+        subscriptions = Subscription.objects.filter(course=course)
+        for s in subscriptions:
+            emails.append(s.user.email)
+
+        send_info.delay(course.id, emails, f'Изменен курс {course.name}')
     def get_permissions(self):
         if self.action == "create":
             self.permission_classes = (~IsModer,)
