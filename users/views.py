@@ -3,7 +3,6 @@ from rest_framework import viewsets
 from rest_framework.generics import CreateAPIView, ListCreateAPIView
 from rest_framework.permissions import AllowAny
 
-from materials.models import Courses
 from users.filters import PaymentFilter
 from users.models import Payment, User
 from users.serialiazer import UserSerializer
@@ -23,12 +22,7 @@ class PaymentCreateAPIView(CreateAPIView):
     queryset = Payment.objects.all()
 
     def perform_create(self, serializer):
-        # Извлекаем course_id из тела url запроса
-        course_id = self.kwargs.get('course_id')
-        # # Получаем объект курса по ID
-        course = Courses.objects.get(id=course_id)
-        # Сохраняем платеж с указанием пользователя и оплаченного курса
-        payment = serializer.save(user=self.request.user, paid_course=course)
+        payment = serializer.save(user=self.request.user)
         product_id = create_stripe_product(payment)
         price = create_stripe_price(payment.payment_amount, product_id)
         session_id, payment_link = create_stripe_sessions(price)

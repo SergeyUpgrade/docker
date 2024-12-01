@@ -170,7 +170,7 @@ CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 CELERY_BEAT_SCHEDULE = {
     "check_last_login": {
         "task": "materials.tasks.deactivate_user",
-        "schedule": timedelta(seconds=10),
+        "schedule": timedelta(days=1),
     },
 }
 
